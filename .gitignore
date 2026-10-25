@@ -1,0 +1,13 @@
+# Agent / 本地工具运行状态（会话级数据，不入库）
+.mimosa/
+.claude/
+
+# 系统与 IDE 本地文件
+.DS_Store
+.idea/
+
+# Vercel CLI 本地状态
+.vercel/
+
+# 日志
+*.log

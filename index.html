@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LayoutSee — 让 Agent 感知视图，触摸界面</title>
+  <meta name="description" content="LayoutSee 是面向移动开发者、QA 与 AI Agent 的 macOS 工具：连接 Android 真机，提供投屏操控、结构化视图感知、布局诊断与 MCP 服务，把运行时视图变成 Agent 可读、可定位、可操作的结构。">
+  <meta property="og:title" content="LayoutSee — 让 Agent 感知视图，触摸界面">
+  <meta property="og:description" content="把 Android 真机上的视图树，变成 Agent 可读、可定位、可操作的结构。">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/logo/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180x180.png">
+  <link rel="stylesheet" href="css/style.css?v=20261025">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="LayoutSee 首页">
+        <img src="assets/logo/logo-light.png" alt="LayoutSee 标志">
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <div class="nav-dd">
+          <button type="button" aria-haspopup="true">功能 <span class="caret" aria-hidden="true"></span></button>
+          <div class="dd-menu">
+            <a href="#workbench">工作台一览</a>
+            <a href="#capability">从看见，到动手</a>
+            <a href="#mcp">MCP 工具</a>
+            <a href="#changelog">更新日志</a>
+            <a href="#community">开源共建</a>
+          </div>
+        </div>
+        <a href="download.html">下载</a>
+        <a href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">开源</a>
+        <div class="lang">
+          <button type="button" aria-haspopup="true">文A <span class="caret" aria-hidden="true"></span></button>
+          <div class="lang-menu">
+            <span>中文</span>
+            <span class="soon">English <em>即将上线</em></span>
+          </div>
+        </div>
+        <a class="btn-pill btn-sm header-cta" href="download.html">下载桌面版</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="letter-grid" data-letters="LAYOUTSEE" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <h1>你好，我是 LayoutSee</h1>
+        <p class="hero-sub">让 Agent 感知视图，触摸界面。<span class="en">SEE THE LAYOUT · TOUCH THE SCREEN</span></p>
+      </div>
+      <!-- 幕布层：黑圆裁切，圆内标题反白 -->
+      <div class="curtain-layer" aria-hidden="true">
+        <div class="letter-grid" data-letters="LAYOUTSEE"></div>
+        <div class="hero-inner curtain-clone">
+          <h1>你好，我是 LayoutSee</h1>
+          <p class="hero-sub">让 Agent 感知视图，触摸界面。<span class="en">SEE THE LAYOUT · TOUCH THE SCREEN</span></p>
+        </div>
+      </div>
+      <a class="hero-dock-btn" href="#quickstart">向下探索</a>
+    </section>
+
+    <!-- 双卡片 -->
+    <section class="duo">
+      <a class="duo-card" href="download.html">
+        <span class="kicker">For Developers</span>
+        <h2>开发者的布局工作台</h2>
+        <p>投屏操控、视图树、XPath、诊断，在一个窗口里完成。</p>
+        <span class="duo-art" aria-hidden="true">
+          <svg viewBox="0 0 340 130" fill="none" stroke="#b8afa6" stroke-width="1.5" stroke-linecap="round">
+            <rect class="draw" x="34" y="8" width="88" height="116" rx="14"/>
+            <path class="draw" d="M56 22h44" opacity=".5"/>
+            <rect x="146" y="34" width="104" height="42" rx="7" stroke="#c8a063"/>
+            <circle cx="146" cy="34" r="3.2" fill="#c8a063" stroke="none"/>
+            <circle cx="250" cy="34" r="3.2" fill="#c8a063" stroke="none"/>
+            <circle cx="146" cy="76" r="3.2" fill="#c8a063" stroke="none"/>
+            <circle cx="250" cy="76" r="3.2" fill="#c8a063" stroke="none"/>
+            <path class="draw" d="M274 40h42M274 62h30M274 84h38M274 106h24" opacity=".55"/>
+            <path class="draw" d="M40 126c40-8 80-8 120 0s80 8 120 0" stroke="#d9d1c7" opacity=".8"/>
+          </svg>
+        </span>
+      </a>
+      <a class="duo-card" href="#mcp">
+        <span class="kicker">For Agents</span>
+        <h2>Agent 的视图感知 MCP</h2>
+        <p>12 个内置工具把 Android 真机交给 AI，看得见、摸得着。</p>
+        <span class="duo-art" aria-hidden="true">
+          <svg viewBox="0 0 340 130" fill="none" stroke="#b8afa6" stroke-width="1.5" stroke-linecap="round">
+            <circle class="draw" cx="52" cy="65" r="11"/>
+            <path class="draw" d="M63 65h52M115 65V26m0 78v-39M115 26h50M115 104h50M115 65h50"/>
+            <circle cx="173" cy="26" r="7"/>
+            <circle cx="173" cy="65" r="7"/>
+            <circle cx="173" cy="104" r="7" stroke="#c8a063"/>
+            <path class="draw" d="M180 26h48m-48 39h48m-48 39h48" opacity=".7"/>
+            <circle cx="238" cy="14" r="4"/>
+            <circle cx="252" cy="34" r="4"/>
+            <circle cx="238" cy="58" r="4"/>
+            <circle cx="252" cy="76" r="4" stroke="#c8a063"/>
+            <circle cx="238" cy="96" r="4"/>
+            <circle cx="252" cy="116" r="4"/>
+          </svg>
+        </span>
+      </a>
+    </section>
+
+    <!-- 快速上手 -->
+    <section class="section" id="quickstart">
+      <div class="wrap section-head reveal">
+        <h2>快速上手</h2>
+        <p class="desc">三步，把真机接进工作流。</p>
+      </div>
+      <ol class="rows">
+        <li class="reveal">
+          <a class="row-link" href="download.html">
+            <span class="row-no">01</span>
+            <span class="row-body">
+              <span class="t">下载桌面版</span>
+              <span class="d">Apple Silicon 与 Intel 双架构 DMG，拖入 Applications 即用。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </a>
+        </li>
+        <li class="reveal">
+          <a class="row-link" href="download.html#setup">
+            <span class="row-no">02</span>
+            <span class="row-body">
+              <span class="t">连接 Android 真机</span>
+              <span class="d">开启开发者选项与 USB 调试，插线授权后自动发现设备。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </a>
+        </li>
+        <li class="reveal">
+          <a class="row-link" href="#mcp">
+            <span class="row-no">03</span>
+            <span class="row-body">
+              <span class="t">交给 Agent</span>
+              <span class="d">在 MCP Tab 复制配置，粘贴进 Claude / Cursor / Comate 即可开工。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </a>
+        </li>
+      </ol>
+      <p class="footnote wrap">设备接入依赖 adb：<code>brew install android-platform-tools</code>，也可在设置中指定已有路径。</p>
+    </section>
+
+    <!-- 从看见，到动手 -->
+    <section class="section" id="capability">
+      <div class="wrap section-head reveal">
+        <h2>从看见，到动手</h2>
+        <p class="desc">抓取页面 → 读取结构 → 定位元素 → 操作设备 → 再次验证。</p>
+      </div>
+      <ol class="rows">
+        <li class="reveal">
+          <div class="row-link">
+            <span class="row-no">01</span>
+            <span class="row-body">
+              <span class="t">感知</span>
+              <span class="d">文本、resource-id、父子层级、边界与交互属性一起读取；截图保留视觉上下文，视图树提供结构证据。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </div>
+        </li>
+        <li class="reveal">
+          <div class="row-link">
+            <span class="row-no">02</span>
+            <span class="row-body">
+              <span class="t">定位</span>
+              <span class="d">按文本、描述、resource-id 或 XPath 查找，拿到短引用 ref，把一句「点登录」落到当前快照里的具体控件。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </div>
+        </li>
+        <li class="reveal">
+          <div class="row-link">
+            <span class="row-no">03</span>
+            <span class="row-body">
+              <span class="t">触摸</span>
+              <span class="d">用 tap、swipe、input_text 操作真机，再抓取新快照验证结果；只读模式与操作审计让过程可控。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </div>
+        </li>
+        <li class="reveal">
+          <div class="row-link">
+            <span class="row-no">04</span>
+            <span class="row-body">
+              <span class="t">诊断</span>
+              <span class="d">重叠、遮挡、越界、热区过小、文本截断、隐形可交互——六类问题返回涉及节点与量化证据。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 工作台一览 -->
+    <section class="section" id="workbench">
+      <div class="wrap section-head reveal">
+        <h2>人也有同一张工作台</h2>
+        <p class="desc">点画面，树上定位；选节点，画面高亮。</p>
+      </div>
+      <figure class="showcase wrap reveal">
+        <img src="assets/screenshots/hero-inspector.webp" alt="LayoutSee 工作台：手机画面、控件属性与视图树联动，选中元素的边界在画面中高亮" loading="lazy">
+      </figure>
+      <div class="wrap">
+        <div class="trio reveal">
+          <figure>
+            <img src="assets/screenshots/workbench.webp" alt="设备工作台：手机画面、设备控制栏与应用操作面板" loading="lazy">
+            <figcaption><b>投屏操控</b><span>实时镜像</span></figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/summary.webp" alt="布局智能面板：带 ref 与坐标的语义摘要，以及六类布局诊断入口" loading="lazy">
+            <figcaption><b>语义摘要</b><span>低 token</span></figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/mcp.webp" alt="MCP 面板：按设备提供端点、可复制的客户端配置与工具列表" loading="lazy">
+            <figcaption><b>MCP 接入</b><span>按设备端点</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- MCP 工具 -->
+    <section class="section" id="mcp">
+      <div class="wrap section-head reveal">
+        <h2>交给 Agent</h2>
+        <p class="desc">12 个内置工具，9 读 3 写；每台在线设备都有独立 SSE 端点。</p>
+      </div>
+      <div class="mcp-grid reveal">
+        <div class="mcp-cell">
+          <p class="g-name">感知页面 <span class="g-no">01</span></p>
+          <p class="g-desc">一次抓取，页面骨架与细节都在</p>
+          <div class="g-tools">
+            <code class="tool">capture_layout</code>
+            <code class="tool">get_layout</code>
+            <code class="tool">get_layout_summary</code>
+          </div>
+        </div>
+        <div class="mcp-cell">
+          <p class="g-name">定位控件 <span class="g-no">02</span></p>
+          <p class="g-desc">把一句话落到当前快照里的元素</p>
+          <div class="g-tools">
+            <code class="tool">find_element</code>
+            <code class="tool">query_xpath</code>
+          </div>
+        </div>
+        <div class="mcp-cell">
+          <p class="g-name">检查布局 <span class="g-no">03</span></p>
+          <p class="g-desc">六类问题，量化证据</p>
+          <div class="g-tools">
+            <code class="tool">diagnose_layout</code>
+          </div>
+        </div>
+        <div class="mcp-cell">
+          <p class="g-name">操作真机 <span class="g-no">04</span></p>
+          <p class="g-desc">只读模式可拦截，操作全审计</p>
+          <div class="g-tools">
+            <code class="tool w">tap</code>
+            <code class="tool w">swipe</code>
+            <code class="tool w">input_text</code>
+          </div>
+        </div>
+        <div class="mcp-cell">
+          <p class="g-name">补充上下文 <span class="g-no">05</span></p>
+          <p class="g-desc">设备信息、前台应用与截图</p>
+          <div class="g-tools">
+            <code class="tool">get_device_info</code>
+            <code class="tool">get_current_app</code>
+            <code class="tool">get_screenshot</code>
+          </div>
+        </div>
+      </div>
+      <p class="mcp-note wrap">开启只读模式后，写操作会被拦截；页面变化后应重新抓取，使用新快照中的 ref。配置在设备工作台的 MCP Tab 复制，粘贴到支持 MCP 的客户端即可。</p>
+    </section>
+
+    <!-- 更新日志 -->
+    <section class="section" id="changelog">
+      <div class="wrap section-head reveal">
+        <h2>更新日志</h2>
+        <p class="desc">新版本与说明都发布在 GitHub Releases。</p>
+      </div>
+      <ol class="rows">
+        <li class="reveal">
+          <a class="row-link" href="https://github.com/IQQcode/LayoutSee/releases/latest" target="_blank" rel="noopener">
+            <span class="row-no">01</span>
+            <span class="row-body">
+              <span class="t">v22.6.1 mac 版本更新</span>
+              <span class="row-meta"><span data-release-tag>v22.6.1</span><span>·</span><span data-release-date>2026-09-22</span></span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </a>
+        </li>
+        <li class="reveal">
+          <a class="row-link" href="https://github.com/IQQcode/LayoutSee/releases" target="_blank" rel="noopener">
+            <span class="row-no">—</span>
+            <span class="row-body">
+              <span class="t">查看全部版本</span>
+              <span class="d">历史 Release 与更新说明</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </a>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 开源共建 -->
+    <section class="section" id="community">
+      <div class="wrap section-head reveal">
+        <h2>开源共建</h2>
+        <p class="desc">代码在 GitHub，问题与想法都欢迎。</p>
+      </div>
+      <ol class="rows">
+        <li class="reveal">
+          <a class="row-link" href="https://github.com/IQQcode/LayoutSee/issues" target="_blank" rel="noopener">
+            <span class="row-no">01</span>
+            <span class="row-body">
+              <span class="t">提一个 Issue</span>
+              <span class="d">报告问题、提出需求，附上快照与诊断证据更佳。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </a>
+        </li>
+        <li class="reveal">
+          <a class="row-link" href="https://github.com/IQQcode/LayoutSee/discussions" target="_blank" rel="noopener">
+            <span class="row-no">02</span>
+            <span class="row-body">
+              <span class="t">参与讨论</span>
+              <span class="d">分享使用方式：自动化、测试、Agent 工作流。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </a>
+        </li>
+        <li class="reveal">
+          <a class="row-link" href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">
+            <span class="row-no">03</span>
+            <span class="row-body">
+              <span class="t">贡献代码</span>
+              <span class="d">从源码运行开始，欢迎 PR。</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </a>
+        </li>
+      </ol>
+      <p class="footnote wrap">致谢 — Android 设备接入与投屏能力基于 <a href="https://github.com/openatx/uiautomator2" target="_blank" rel="noopener">uiautomator2</a>、<a href="https://github.com/Genymobile/scrcpy" target="_blank" rel="noopener">scrcpy</a> 等开源项目；设备接入层参考并二次开发自 <a href="https://github.com/codeskyblue/uiautodev" target="_blank" rel="noopener">uiautodev</a>。</p>
+    </section>
+  </main>
+
+  <footer class="site-footer footer-light">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;">
+      <p class="fine">© 2026 LayoutSee · IQQcode</p>
+      <nav class="flinks" aria-label="页脚导航">
+        <a href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/IQQcode/LayoutSee/releases" target="_blank" rel="noopener">Releases</a>
+        <a href="https://github.com/IQQcode/LayoutSee/issues" target="_blank" rel="noopener">反馈请开 Issue</a>
+        <a href="download.html">下载页</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/main.js?v=20261025"></script>
+</body>
+</html>
