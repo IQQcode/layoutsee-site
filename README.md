@@ -1,7 +1,6 @@
 # LayoutSee 官网
 
-[LayoutSee](https://github.com/IQQcode/LayoutSee) 的官方网站：一个纯静态、零依赖的双页站点，视觉风格参考 [Xiaomi MiMo 官网](https://mimo.xiaomi.com/)——奶白底色、1px 细线分格、衬线正文与编号列表组件。
-
+[LayoutSee](https://github.com/IQQcode/LayoutSee) 的官方网站：一个纯静态、零依赖的双页站点
 ## 页面
 
 | 页面 | 文件 | 内容 |
