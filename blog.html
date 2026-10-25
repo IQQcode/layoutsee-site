@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>你的 AI 会写代码，却连一个按钮都点不准 — LayoutSee 深度介绍</title>
+  <meta name="description" content="截图只能让 Agent 看见界面，View 树才能让它摸到控件。LayoutSee 把 Android 运行时视图树做成 12 个 MCP 工具：抓快照、读层级、找控件、点它、再验证。">
+  <meta property="og:title" content="你的 AI 会写代码，却连一个按钮都点不准">
+  <meta property="og:description" content="截图只能让 Agent 看见界面，View 树才能让它摸到控件。">
+  <meta property="og:image" content="https://iqqcode-cdn.oss-cn-beijing.aliyuncs.com/dev/layoutsee/04-layout-element-view.png">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/logo/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180x180.png">
+  <link rel="stylesheet" href="css/style.css?v=20261025b">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="LayoutSee 首页">
+        <img src="assets/logo/logo-light.png" alt="LayoutSee 标志">
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="index.html">首页</a>
+        <a href="blog.html" class="active">深度介绍</a>
+        <a href="download.html">下载</a>
+        <a href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">开源</a>
+        <a class="btn-pill btn-sm header-cta" href="download.html">下载桌面版</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article class="article-wrap">
+      <p class="kicker">LayoutSee · 深度介绍</p>
+
+      <h1>你的 AI 会写代码，<br>却连一个按钮都点不准</h1>
+
+      <p class="standfirst">截图只能让它「看见」界面，View 树才能让它「摸到」控件。这是我做 LayoutSee 的原因。<br>
+      一个 macOS 上的 Android 布局工作台 + MCP 服务：把真机视图树交给 Claude、Cursor、Comate，让 Agent 从「猜」变成「查」。</p>
+
+      <div class="article-meta">
+        <span>2026-10-25</span><span class="dot"></span>
+        <span>约 6 分钟</span><span class="dot"></span>
+        <span>AI Agent · MCP · Android</span>
+      </div>
+
+      <aside class="tldr">
+        <div class="tldr-title">TL;DR / 给赶时间的朋友</div>
+        <ul>
+          <li>让 Agent 操作 App，主流做法是喂截图、让模型估坐标，准不准全看运气。</li>
+          <li>LayoutSee 把 Android 运行时 View 树通过 MCP 暴露成 12 个工具：抓快照、读层级、找控件、点它、再验证。</li>
+          <li>每台设备一个 SSE 端点，一段 JSON 接进 Claude / Cursor / Comate；写操作有只读门禁和审计日志。</li>
+          <li>开源免费，macOS + Android 真机，<a href="download.html">官网直接下载</a>。</li>
+        </ul>
+      </aside>
+
+      <h2><span class="h2-num">01</span>先讲一个翻车现场</h2>
+
+      <p>如果你试过让 Agent 操作真机，大概率见过这个画面。</p>
+
+      <p>任务很简单：「打开 App，搜索机械键盘，把第一个商品加入购物车」。</p>
+
+      <p>Agent 截了张图，模型盯着图看了三秒，说按钮在 <code>(860, 2140)</code>，然后点了下去。屏幕上弹出了「猜你喜欢」的广告页。</p>
+
+      <p>为什么？因为就在两秒前，那个位置还是「加入购物车」，现在被一个运营弹窗盖住了。</p>
+
+      <p>真正可怕的是后半段：Agent 并不知道自己点空了。它继续截图，继续分析，继续一本正经地编下一步。</p>
+
+      <div class="article-quote"><p><strong>报错不可怕，可怕的是它以为自己成功了。</strong></p></div>
+
+      <p>这不是模型不够聪明。把一张 1080×2400 的截图压缩成视觉 token 之后，那个 40×40 的关闭图标可能只剩十几个 token；模型再强，也没法从像素里凭空读出「这个控件叫 close，可点击，热区只有 24dp」。</p>
+
+      <h2><span class="h2-num">02</span>截图这条路，天生有三个坑</h2>
+
+      <p><strong>第一，坐标是猜的。</strong> 模型看图估像素，屏幕一缩放、分辨率一换、状态栏高度一变，坐标就漂。你以为是 10px 误差，实际点到了隔壁的 banner。</p>
+
+      <p><strong>第二，界面是动的。</strong> 弹窗、骨架屏、运营位、键盘弹起、列表懒加载——你截的那一帧，永远只是过去。</p>
+
+      <p><strong>第三，语义是缺的。</strong> 截图里没有 resource-id，没有父子层级，没有 clickable，也没有 bounds。模型只能从「长什么样」反推「是什么」，而这两件事在 UI 里经常对不上。</p>
+
+      <div class="article-table-wrap">
+        <table class="article-table">
+          <thead>
+            <tr><th>维度</th><th>截图 + 视觉模型</th><th>View 树 + MCP</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="维度">元素身份</td><td data-label="截图 + 视觉模型">靠识别，文案一改版就漂</td><td data-label="View 树 + MCP">resource-id / 类名 / 层级，确定</td></tr>
+            <tr><td data-label="维度">坐标</td><td data-label="截图 + 视觉模型">模型估，缩放即漂</td><td data-label="View 树 + MCP">bounds 上报，ref 直点中心</td></tr>
+            <tr><td data-label="维度">遮挡判断</td><td data-label="截图 + 视觉模型">基本靠猜</td><td data-label="View 树 + MCP">诊断给出涉及节点与证据</td></tr>
+            <tr><td data-label="维度">上下文成本</td><td data-label="截图 + 视觉模型">一张图几千 token，小字还看不清</td><td data-label="View 树 + MCP">语义摘要默认 1200 token 预算</td></tr>
+            <tr><td data-label="维度">失败反馈</td><td data-label="截图 + 视觉模型">常常「看起来成功了」</td><td data-label="View 树 + MCP">显式错误码，过期就报错</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>于是所有人都在做同一件事：给模型更多截图、更多标注、更多 prompt，试图用视觉把结构「猜」出来。</p>
+
+      <p><em class="hl">但结构本来就在那里。</em></p>
+
+      <h2><span class="h2-num">03</span>Android 早就把答案放在那了</h2>
+
+      <p>一行 <code>uiautomator dump</code>，就能拿到当前页面的 View 树 XML：每个节点的文本、resource-id、类名、坐标、是否可点击、父子关系，全都有。</p>
+
+      <p>那为什么大家不用？</p>
+
+      <p>因为原始 XML 是给机器看的，不是给模型看的：</p>
+
+      <ul class="article-list">
+        <li>一个页面 50 多个节点，嵌套十几层，一次 dump 好几千 token，还没开始干活上下文就满了；</li>
+        <li><code>bounds</code> 是 <code>[643,295][1258,1389]</code> 这种绝对坐标，换台设备就全废；</li>
+        <li>点完之后页面变了，旧快照还在，Agent 拿着过期的 ref 继续点；</li>
+        <li>它不会告诉你「这个按钮被另一个 View 盖住了」——而这恰恰是最常见的线上问题。</li>
+      </ul>
+
+      <p>所以真正的缺口从来不是「有没有 View 树」，而是：<strong>View 树离 Agent 能用的接口，还差一整个工程层。</strong></p>
+
+      <h2><span class="h2-num">04</span>LayoutSee 就干这一件事</h2>
+
+      <p>这两年，MCP 已经成了 Agent 接工具的事实标准。数据库、浏览器、文件系统都有了像样的接口，但轮到你手机里的 App，大多数方案还停在「截个图，让模型自己看」。</p>
+
+      <p>LayoutSee 补的就是这一块。</p>
+
+      <p>一句话：把 Android 运行时视图树，工程化成 Agent 能直接调用的 MCP 工具；顺便，给人类一张能看的工作台。</p>
+
+      <p>它也不是又一个 Appium 客户端：Appium 面向脚本和测试用例，要先写驱动逻辑；LayoutSee 面向 Agent 的即时决策——抓一次、找一次、点一次，不需要预先编排。同一套能力，人在工作台里也能直接用。</p>
+
+      <p>架构也不复杂：macOS 桌面端 + 本地 Core（Python，默认监听回环地址）+ 每台在线设备一个独立的 MCP 端点。手机通过 adb 接入，投屏走 scrcpy。Agent 和你在同一个 Core 上，看的是同一份快照。</p>
+
+      <figure class="article-fig">
+        <img src="https://iqqcode-cdn.oss-cn-beijing.aliyuncs.com/dev/layoutsee/04-layout-element-view.png" alt="LayoutSee 工作台：左边投屏，中间属性，右边 View 树，点哪儿查哪儿" loading="lazy">
+        <figcaption>工作台：左边投屏，中间属性，右边 View 树，点哪儿查哪儿。</figcaption>
+      </figure>
+
+      <h2><span class="h2-num">05</span>五步闭环：抓、读、找、点、验</h2>
+
+      <p>这 12 个工具（9 读 3 写）不是为了凑数，它们刚好对应一个完整的操作闭环。</p>
+
+      <ol class="steps">
+        <li><strong>抓 —— capture_layout</strong>冻结页面、dump 视图树、截图、建索引，一次原子完成，返回 snapshotId。不是「先 dump 再截图」那种会错位的做法。</li>
+        <li><strong>读 —— get_layout_summary / get_layout</strong>先看骨架，再按需深入。语义摘要是确定性生成的：同样的输入，永远同样的输出。实测一个 52 个节点的页面，压缩成 20 个可交互元素、1186 个 token。每个元素都带短 ref 和归一化边界（0–1 之间），换分辨率也不用重算。</li>
+        <li><strong>找 —— find_element / query_xpath</strong>按文案、描述、resource-id 定位；XPath 直接在快照的原始 XML 上执行，返回 nodeKey。前者像人找东西，后者像工程师找东西，都给你。</li>
+        <li><strong>点 —— tap / swipe / input_text</strong>tap 可以直接传 ref，Core 会取该节点 bounds 的中心点执行点击。不用你算坐标，也不给模型瞎猜的机会。</li>
+        <li><strong>验 —— 再抓一次</strong>页面变了就重新抓，用新快照里的新 ref。拿旧 ref 去点会明确报 SNAPSHOT_STALE 或 REF_NOT_FOUND，而不是「假装成功」。</li>
+      </ol>
+
+      <p><strong>失败要显式。</strong> 这是给 Agent 做工具时最容易被忽略、也最重要的一条。</p>
+
+      <p>一次典型的调用长这样：</p>
+
+<pre><span class="cm">用户：把「加入购物车」点了，确认购物车角标 +1</span>
+
+Agent → capture_layout             <span class="cm">→ 52 nodes, snapshotId=snap-7a3e</span>
+Agent → find_element("加入购物车")   <span class="cm">→ ref=r_1f2e</span>
+                                   <span class="cm">  bounds=[0.00,0.85,1.00,0.92], clickable=true</span>
+Agent → tap(ref="r_1f2e")           <span class="ok">→ ok</span>
+Agent → capture_layout             <span class="cm">→ 购物车角标 3 → 4</span> <span class="ok">✓</span></pre>
+
+      <p>你看，整个过程没有一次「我觉得大概在这个位置」。</p>
+
+      <h2><span class="h2-num">06</span>它还会顺手做个「体检」</h2>
+
+      <p><code>diagnose_layout</code> 检查六类问题：重叠、遮挡、越界、点击热区过小、文本截断、不可见但可交互。每条返回类型、严重程度、涉及节点、量化证据和建议，最多 50 条。</p>
+
+      <p>QA 说「这个按钮点不动」，以前你要复现、录屏、猜层级；现在跑一遍诊断，大概率直接告诉你：按钮被一个透明的 loading 遮罩盖着，遮罩的 nodeKey 是某某某。</p>
+
+      <figure class="article-fig">
+        <img src="https://iqqcode-cdn.oss-cn-beijing.aliyuncs.com/dev/layoutsee/07-layout-smart-diagnosis.png" alt="布局智能：语义摘要与六类布局诊断" loading="lazy">
+        <figcaption>布局智能：语义摘要 + 六类布局诊断，问题的证据精确到节点。</figcaption>
+      </figure>
+
+      <p><strong>有证据的排查，和靠感觉的排查，是两种工作。</strong></p>
+
+      <h2><span class="h2-num">07</span>给 Agent 用，也给你用</h2>
+
+      <p>很多「AI 工具」的问题是：为了机器好用，把人挤没了。</p>
+
+      <p>LayoutSee 反过来：人机共用同一份结构。</p>
+
+      <ul class="article-list">
+        <li>实时投屏，键鼠直接操控真机，多台设备可同时在线；</li>
+        <li>点画面，树上定位；选节点，画面高亮——三向联动；</li>
+        <li>属性面板、XPath 查询，候选选择器直接标「4 命中 / 不稳定」，让你一眼看出哪个选择器能上生产；</li>
+        <li>插件系统接入日志抓取、adb 快捷操作，还能往 MCP 里加自定义工具。</li>
+      </ul>
+
+      <figure class="article-fig">
+        <img src="https://iqqcode-cdn.oss-cn-beijing.aliyuncs.com/dev/layoutsee/03-layout-screen-casting.png" alt="LayoutSee 投屏与操控" loading="lazy">
+        <figcaption>投屏与操控：画面即现场。</figcaption>
+      </figure>
+
+      <p>Agent 要的是接口，人要的是眼睛。两个都得有。</p>
+
+      <h2><span class="h2-num">08</span>边界，先说在前面</h2>
+
+      <p>吹完功能，说点不好听的：</p>
+
+      <ul class="article-list">
+        <li><strong>WebView 和自绘 Canvas 的内部元素可能拿不到。</strong> 截图能补视觉，但别指望它证明内部层级或 resource-id。</li>
+        <li><strong>一次快照就是一次采集。</strong> 抓取期间页面跳变，就得重抓。这是时序问题，不是模型能力问题。</li>
+        <li><strong>只支持 macOS + Android 真机。</strong> iOS 还在路上，目前是界面预告。</li>
+        <li><strong>Core 默认监听回环地址。</strong> 但你把它接进外部 AI 客户端之后，数据怎么发由那个客户端决定——这句必须说清楚。</li>
+      </ul>
+
+      <p>工具的价值是把「结构」这件事做扎实，不是替模型做所有判断。</p>
+
+      <h2><span class="h2-num">09</span>三分钟跑起来</h2>
+
+      <ol class="steps">
+        <li><strong>下载并安装</strong>去<a href="download.html">官网下载页</a>或 <a href="https://github.com/IQQcode/LayoutSee/releases/latest" target="_blank" rel="noopener">Releases</a> 下 DMG：Apple 芯片选 arm64，Intel 选 x64。未签名包首次打开被拦，去「系统设置 → 隐私与安全性」点「仍要打开」。</li>
+        <li><strong>装 adb，手机开 USB 调试</strong>
+<pre>brew install android-platform-tools</pre>
+        </li>
+        <li><strong>复制 MCP 配置</strong>打开设备工作台，进 MCP Tab，复制配置：
+<pre>{
+  "mcpServers": {
+    "layoutsee-android-3B161V012A600000": {
+      "type": "sse",
+      "url": "http://127.0.0.1:11663/mcp/android-3B161V012A600000/sse"
+    }
+  }
+}</pre>
+        </li>
+      </ol>
+
+      <p>粘进 Claude / Cursor / Comate（端口与设备名以界面实际给出的配置为准），再把 <a href="https://github.com/IQQcode/LayoutSee/tree/main/skills/layout-see" target="_blank" rel="noopener">layout-see Skill</a> 丢给它。第一句话可以这么问：</p>
+
+      <div class="article-quote"><p>「读取当前页面，找出所有可点击但不是按钮的元素。」</p></div>
+
+      <p>然后看它第一次给你带回 resource-id、边界和 ref 的答案。</p>
+
+      <figure class="article-fig">
+        <img src="https://iqqcode-cdn.oss-cn-beijing.aliyuncs.com/dev/layoutsee/06-layout-mcp-support.png" alt="MCP 面板：每台设备独立端点，配置一键复制" loading="lazy">
+        <figcaption>MCP 面板：每台设备独立端点，配置一键复制。</figcaption>
+      </figure>
+
+      <h2><span class="h2-num">10</span>最后</h2>
+
+      <p>过去两年，AI 学会了看图、学会了写代码、学会了用工具。</p>
+
+      <p>但它操作你的 App 时，还在靠猜。</p>
+
+      <p><strong>截图是给眼睛看的，View 树是给手用的。</strong> AI 已经长了眼睛，现在该给它一双手了。</p>
+
+      <p>如果这个小工具帮你少点了一次「猜」，欢迎去 <a href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">GitHub</a> 给个 Star；不好用就来开 Issue——最好带上快照和诊断证据，我们按证据聊。</p>
+
+      <div class="article-cta">
+        <p class="cta-title">LayoutSee · <span data-release-tag>v22.6.1</span></p>
+        <p class="cta-sub">macOS + Android 真机 · 12 个 MCP 工具 · 开源免费</p>
+        <div class="cta-links">
+          <a class="btn-pill" href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">GitHub 源码 <span class="arr">→</span></a>
+          <a class="btn-light" href="index.html">官网首页</a>
+          <a class="btn-light" href="download.html">下载 macOS 版</a>
+        </div>
+      </div>
+
+      <p class="article-credits">
+        致谢：设备接入与投屏能力基于 <a href="https://github.com/openatx/uiautomator2" target="_blank" rel="noopener">uiautomator2</a>、<a href="https://github.com/Genymobile/scrcpy" target="_blank" rel="noopener">scrcpy</a>，接入层参考并二次开发自 <a href="https://github.com/codeskyblue/uiautodev" target="_blank" rel="noopener">uiautodev</a>。
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer site-footer-dark">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/logo/logo-dark.png" alt="LayoutSee 标志（浅色）">
+          <p class="fb-line">让 Agent 感知视图，触摸界面。把 Android 真机上的视图树，变成 Agent 可读、可定位、可操作的结构。</p>
+        </div>
+        <div class="footer-col">
+          <h4>产品</h4>
+          <a href="download.html">桌面版下载</a>
+          <a href="https://github.com/IQQcode/LayoutSee/releases" target="_blank" rel="noopener">更新日志</a>
+          <a href="index.html#mcp">MCP 工具</a>
+        </div>
+        <div class="footer-col">
+          <h4>资源</h4>
+          <a href="blog.html">深度介绍</a>
+          <a href="https://github.com/IQQcode/LayoutSee#readme" target="_blank" rel="noopener">使用文档（README）</a>
+          <a href="https://github.com/IQQcode/LayoutSee/tree/main/skills/layout-see" target="_blank" rel="noopener">layout-see Skill</a>
+          <a href="https://github.com/IQQcode/LayoutSee/tree/main/repos/plugins" target="_blank" rel="noopener">插件说明</a>
+        </div>
+        <div class="footer-col">
+          <h4>项目</h4>
+          <a href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">GitHub 仓库</a>
+          <a href="https://github.com/IQQcode/LayoutSee/issues" target="_blank" rel="noopener">Issues</a>
+          <a href="https://github.com/IQQcode/LayoutSee/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+        <div class="footer-col">
+          <h4>关于</h4>
+          <a href="index.html#community">开源致谢</a>
+          <a href="https://github.com/IQQcode/LayoutSee/tree/main/docs/designs" target="_blank" rel="noopener">设计素材</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 LayoutSee · IQQcode. 基于开源社区构建。</span>
+        <span>基于 uiautomator2、scrcpy、uiautodev 等开源项目</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js?v=20261025b"></script>
+</body>
+</html>
