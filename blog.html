@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/logo/favicon-16x16.png">
   <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180x180.png">
-  <link rel="stylesheet" href="css/style.css?v=20261025b">
+  <link rel="stylesheet" href="css/style.css?v=20261101">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -53,7 +53,7 @@
           <li>让 Agent 操作 App，主流做法是喂截图、让模型估坐标，准不准全看运气。</li>
           <li>LayoutSee 把 Android 运行时 View 树通过 MCP 暴露成 12 个工具：抓快照、读层级、找控件、点它、再验证。</li>
           <li>每台设备一个 SSE 端点，一段 JSON 接进 Claude / Cursor / Comate；写操作有只读门禁和审计日志。</li>
-          <li>开源免费，macOS + Android 真机，<a href="download.html">官网直接下载</a>。</li>
+          <li>开源免费，macOS + Android / iOS 真机（iOS 恒只读），<a href="download.html">官网直接下载</a>。</li>
         </ul>
       </aside>
 
@@ -200,7 +200,7 @@ Agent → capture_layout             <span class="cm">→ 购物车角标 3 → 
       <ul class="article-list">
         <li><strong>WebView 和自绘 Canvas 的内部元素可能拿不到。</strong> 截图能补视觉，但别指望它证明内部层级或 resource-id。</li>
         <li><strong>一次快照就是一次采集。</strong> 抓取期间页面跳变，就得重抓。这是时序问题，不是模型能力问题。</li>
-        <li><strong>只支持 macOS + Android 真机。</strong> iOS 还在路上，目前是界面预告。</li>
+        <li><strong>支持 macOS + Android / iOS 真机。</strong> iOS 布局抓取基于 Lookin 协议、恒只读；HarmonyOS 仍为界面预告。</li>
         <li><strong>Core 默认监听回环地址。</strong> 但你把它接进外部 AI 客户端之后，数据怎么发由那个客户端决定——这句必须说清楚。</li>
       </ul>
 
@@ -248,7 +248,7 @@ Agent → capture_layout             <span class="cm">→ 购物车角标 3 → 
 
       <div class="article-cta">
         <p class="cta-title">LayoutSee · <span data-release-tag>v22.6.1</span></p>
-        <p class="cta-sub">macOS + Android 真机 · 12 个 MCP 工具 · 开源免费</p>
+        <p class="cta-sub">macOS + Android / iOS 真机 · 12 个 MCP 工具 · 开源免费</p>
         <div class="cta-links">
           <a class="btn-pill" href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">GitHub 源码 <span class="arr">→</span></a>
           <a class="btn-light" href="index.html">官网首页</a>

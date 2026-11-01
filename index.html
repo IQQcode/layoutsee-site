@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LayoutSee — 让 Agent 感知视图，触摸界面</title>
-  <meta name="description" content="LayoutSee 是面向移动开发者、QA 与 AI Agent 的 macOS 工具：连接 Android 真机，提供投屏操控、结构化视图感知、布局诊断与 MCP 服务，把运行时视图变成 Agent 可读、可定位、可操作的结构。">
+  <meta name="description" content="LayoutSee 是面向移动开发者、QA 与 AI Agent 的 macOS 工具：连接 Android / iOS 真机，提供投屏操控、结构化视图感知、布局诊断与 MCP 服务，把运行时视图变成 Agent 可读、可定位、可操作的结构。">
   <meta property="og:title" content="LayoutSee — 让 Agent 感知视图，触摸界面">
-  <meta property="og:description" content="把 Android 真机上的视图树，变成 Agent 可读、可定位、可操作的结构。">
+  <meta property="og:description" content="把 Android / iOS 真机上的视图树，变成 Agent 可读、可定位、可操作的结构。">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/logo/favicon-16x16.png">
   <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180x180.png">
-  <link rel="stylesheet" href="css/style.css?v=20261025b">
+  <link rel="stylesheet" href="css/style.css?v=20261101">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -89,7 +89,7 @@
       <a class="duo-card" href="#mcp">
         <span class="kicker">For Agents</span>
         <h2>Agent 的视图感知 MCP</h2>
-        <p>12 个内置工具把 Android 真机交给 AI，看得见、摸得着。</p>
+        <p>12 个内置工具把 Android / iOS 真机交给 AI，看得见、摸得着。</p>
         <span class="duo-art" aria-hidden="true">
           <svg viewBox="0 0 340 130" fill="none" stroke="#b8afa6" stroke-width="1.5" stroke-linecap="round">
             <circle class="draw" cx="52" cy="65" r="11"/>
@@ -130,8 +130,8 @@
           <a class="row-link" href="download.html#setup">
             <span class="row-no">02</span>
             <span class="row-body">
-              <span class="t">连接 Android 真机</span>
-              <span class="d">开启开发者选项与 USB 调试，插线授权后自动发现设备。</span>
+              <span class="t">连接 Android / iOS 真机</span>
+              <span class="d">Android 开启 USB 调试，iOS 被测 App 集成 LookinServer，插线后自动发现设备。</span>
             </span>
             <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
           </a>
@@ -147,7 +147,7 @@
           </a>
         </li>
       </ol>
-      <p class="footnote wrap">设备接入依赖 adb：<code>brew install android-platform-tools</code>，也可在设置中指定已有路径。</p>
+      <p class="footnote wrap">Android 设备接入依赖 adb：<code>brew install android-platform-tools</code>，也可在设置中指定已有路径；iOS 设备需被测 App 集成 LookinServer（仅 Debug），抓取恒只读。</p>
     </section>
 
     <!-- 从看见，到动手 -->
@@ -378,7 +378,7 @@
           </a>
         </li>
       </ol>
-      <p class="footnote wrap">致谢 — Android 设备接入与投屏能力基于 <a href="https://github.com/openatx/uiautomator2" target="_blank" rel="noopener">uiautomator2</a>、<a href="https://github.com/Genymobile/scrcpy" target="_blank" rel="noopener">scrcpy</a> 等开源项目；设备接入层参考并二次开发自 <a href="https://github.com/codeskyblue/uiautodev" target="_blank" rel="noopener">uiautodev</a>。</p>
+      <p class="footnote wrap">致谢 — Android 设备接入与投屏能力基于 <a href="https://github.com/openatx/uiautomator2" target="_blank" rel="noopener">uiautomator2</a>、<a href="https://github.com/Genymobile/scrcpy" target="_blank" rel="noopener">scrcpy</a> 等开源项目；设备接入层参考并二次开发自 <a href="https://github.com/codeskyblue/uiautodev" target="_blank" rel="noopener">uiautodev</a>；iOS 布局抓取基于 <a href="https://github.com/QMUI/LookinServer" target="_blank" rel="noopener">LookinServer</a>（MIT）开源项目实现。</p>
     </section>
   </main>
 

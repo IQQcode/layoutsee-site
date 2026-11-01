@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>下载 LayoutSee 桌面客户端 — macOS（Apple Silicon / Intel）</title>
-  <meta name="description" content="下载 LayoutSee macOS 桌面客户端：连接 Android 真机，投屏操控、结构化视图感知、布局诊断，并通过 MCP 把真机交给 AI Agent。">
+  <meta name="description" content="下载 LayoutSee macOS 桌面客户端：连接 Android / iOS 真机，投屏操控、结构化视图感知、布局诊断，并通过 MCP 把真机交给 AI Agent。">
   <meta property="og:title" content="下载 LayoutSee 桌面客户端">
   <meta property="og:description" content="和 LayoutSee 桌面客户端，感知每一层视图。macOS（Apple Silicon / Intel）双架构 DMG。">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/logo/favicon-16x16.png">
   <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180x180.png">
-  <link rel="stylesheet" href="css/style.css?v=20261025b">
+  <link rel="stylesheet" href="css/style.css?v=20261101">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -64,7 +64,7 @@
         </a>
       </div>
       <p class="dl-meta">当前版本 <b class="mono" data-release-tag>v22.6.1</b>（<span data-release-date>2026-09-22</span> 发布）· 约 136 / 141 MB · 未签名包首次打开请在「系统设置 → 隐私与安全性」选择「仍要打开」。</p>
-      <p class="dl-corner">当前支持 macOS + Android 真机；iOS 与 HarmonyOS 为界面预告。</p>
+      <p class="dl-corner">当前支持 macOS + Android / iOS 真机（iOS 布局抓取，恒只读）；HarmonyOS 为界面预告。</p>
     </section>
 
     <!-- macOS 窗口大图 -->
@@ -182,8 +182,8 @@
           <div class="row-link">
             <span class="row-no">02</span>
             <span class="row-body">
-              <span class="t">准备 adb</span>
-              <span class="d"><code>brew install android-platform-tools</code>，或在设置中指定已有 adb 路径。</span>
+              <span class="t">准备环境</span>
+              <span class="d">Android：<code>brew install android-platform-tools</code>，或在设置中指定已有 adb 路径；iOS：被测 App 集成 LookinServer（仅 Debug）。</span>
             </span>
             <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
           </div>
@@ -193,7 +193,7 @@
             <span class="row-no">03</span>
             <span class="row-body">
               <span class="t">连接设备</span>
-              <span class="d">开启开发者选项与 USB 调试，用支持数据传输的线缆连接，在手机上确认调试授权。</span>
+              <span class="d">Android 开启 USB 调试并确认授权；iOS 被测 App 前台运行，USB 连接后自动发现设备。</span>
             </span>
             <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
           </div>
@@ -209,7 +209,7 @@
       </div>
       <dl class="req-grid reveal">
         <div class="req-cell"><dt>操作系统</dt><dd>macOS<small>Apple Silicon / Intel</small></dd></div>
-        <div class="req-cell"><dt>设备</dt><dd>Android 真机<small>iOS、HarmonyOS 为界面预告</small></dd></div>
+        <div class="req-cell"><dt>设备</dt><dd>Android / iOS 真机<small>iOS 需集成 LookinServer 且恒只读；HarmonyOS 为界面预告</small></dd></div>
         <div class="req-cell"><dt>依赖</dt><dd>adb<small>可选 brew 安装</small></dd></div>
         <div class="req-cell"><dt>接入方式</dt><dd>USB 数据线<small>需支持数据传输</small></dd></div>
       </dl>
@@ -241,7 +241,7 @@ npm run dev:web      <span class="cm"># 启动本地 Core 与 Web 工作台</spa
       <div class="footer-grid">
         <div class="footer-brand">
           <img src="assets/logo/logo-dark.png" alt="LayoutSee 标志（浅色）">
-          <p class="fb-line">让 Agent 感知视图，触摸界面。把 Android 真机上的视图树，变成 Agent 可读、可定位、可操作的结构。</p>
+          <p class="fb-line">让 Agent 感知视图，触摸界面。把 Android / iOS 真机上的视图树，变成 Agent 可读、可定位、可操作的结构。</p>
         </div>
         <div class="footer-col">
           <h4>产品</h4>

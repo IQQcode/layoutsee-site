@@ -291,7 +291,12 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 /* ------------------------------------------------------------
    编号列表行（01 / 标题 / →）— 全站核心组件
    ------------------------------------------------------------ */
-.rows { border-top: 1px solid var(--line); }
+.rows {
+  border-top: 1px solid var(--line);
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 28px;
+}
 .rows li { border-bottom: 1px solid var(--line); }
 .row-link {
   display: grid; grid-template-columns: 96px 1fr 96px;
