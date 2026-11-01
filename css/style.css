@@ -230,6 +230,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 1px; background: var(--line);
   border-bottom: 1px solid var(--line);
+  max-width: var(--wrap); margin: 0 auto;
 }
 .duo-card {
   background: var(--bg);
@@ -362,6 +363,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 1px; background: var(--line);
   border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  max-width: var(--wrap); margin: 0 auto;
 }
 .mcp-cell { background: var(--bg); padding: 26px 34px 28px; transition: background 0.16s ease; }
 .mcp-cell:hover { background: var(--bg-white); }
@@ -541,7 +543,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
    ------------------------------------------------------------ */
 .nav > a.active { color: var(--accent); }
 
-.article-wrap { max-width: 780px; margin: 0 auto; padding: 68px 28px 88px; }
+.article-wrap { max-width: 1248px; margin: 0 auto; padding: 68px 28px 88px; }
 
 .article-wrap .kicker {
   font-family: var(--sans); font-size: 12px; font-weight: 600;
