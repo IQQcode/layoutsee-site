@@ -381,6 +381,8 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 }
 .mcp-cell .tool.w { border-color: rgba(226, 73, 47, 0.4); color: var(--accent); }
 .mcp-note { padding: 20px 0 48px; font-size: 13.5px; color: var(--muted); }
+.mcp-note-top { padding: 26px 0 14px; }
+.skills-grid { grid-template-columns: repeat(3, 1fr); }
 
 /* ------------------------------------------------------------
    Hero（下载页）
@@ -718,7 +720,7 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   .feature-copy { padding: 40px 28px 44px; }
   .req-grid { grid-template-columns: 1fr 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .mcp-grid { grid-template-columns: 1fr; }
+  .mcp-grid, .skills-grid { grid-template-columns: 1fr; }
   .trio { grid-template-columns: 1fr; }
 }
 

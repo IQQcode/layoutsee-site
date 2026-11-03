@@ -231,7 +231,7 @@
     <section class="section" id="mcp">
       <div class="wrap section-head reveal">
         <h2>交给 Agent</h2>
-        <p class="desc">12 个内置工具，9 读 3 写；每台在线设备都有独立 SSE 端点。</p>
+        <p class="desc">12 个内置工具，9 读 3 写；每台在线设备都有独立 SSE 端点。另附三个随包 Skill，覆盖感知、环境配置与 iOS 接入。</p>
       </div>
       <div class="mcp-grid reveal">
         <div class="mcp-cell">
@@ -277,6 +277,21 @@
           </div>
         </div>
       </div>
+      <p class="mcp-note wrap mcp-note-top">随包 Skill —— 交给任意 AI 客户端即可使用；应用内「设置 → Agent」分区可随时查看，并复制示例提示词。</p>
+      <div class="mcp-grid skills-grid reveal">
+        <div class="mcp-cell">
+          <p class="g-name">layout-see <span class="g-no">01</span></p>
+          <p class="g-desc">布局感知：抓取真机/模拟器视图树，定位控件、诊断重叠遮挡与点击热区。</p>
+        </div>
+        <div class="mcp-cell">
+          <p class="g-name">layout-env <span class="g-no">02</span></p>
+          <p class="g-desc">一键配置：自动探测并映射 ADB 路径，体检 Android / iOS 两端环境。</p>
+        </div>
+        <div class="mcp-cell">
+          <p class="g-name">layout-lookin-server <span class="g-no">03</span></p>
+          <p class="g-desc">iOS 接入：自动把 LookinServer 集成进你的 iOS 工程（CocoaPods / SPM）。</p>
+        </div>
+      </div>
       <p class="mcp-note wrap">开启只读模式后，写操作会被拦截；页面变化后应重新抓取，使用新快照中的 ref。配置在设备工作台的 MCP Tab 复制，粘贴到支持 MCP 的客户端即可。</p>
     </section>
 
@@ -288,8 +303,19 @@
       </div>
       <ol class="rows">
         <li class="reveal">
-          <a class="row-link" href="https://github.com/IQQcode/LayoutSee/releases/latest" target="_blank" rel="noopener">
+          <a class="row-link" href="https://github.com/IQQcode/LayoutSee/releases" target="_blank" rel="noopener">
             <span class="row-no">01</span>
+            <span class="row-body">
+              <span class="t">Agent 能力展示与环境一键配置</span>
+              <span class="d">设置新增「Agent」分区与首次启动弹窗：三个随包 Skill（layout-see / layout-env / layout-lookin-server）可复制示例提示词，实时展示内核与 MCP 状态；layout-env 一键体检并配置 Android / iOS 环境，layout-lookin-server 自动把 LookinServer 集成进你的 iOS 工程。</span>
+              <span class="row-meta"><span>22.8 预览</span><span>·</span><span>2026-11-04</span></span>
+            </span>
+            <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>
+          </a>
+        </li>
+        <li class="reveal">
+          <a class="row-link" href="https://github.com/IQQcode/LayoutSee/releases/latest" target="_blank" rel="noopener">
+            <span class="row-no">02</span>
             <span class="row-body">
               <span class="t">v22.6.1 mac 版本更新</span>
               <span class="row-meta"><span data-release-tag>v22.6.1</span><span>·</span><span data-release-date>2026-09-22</span></span>
