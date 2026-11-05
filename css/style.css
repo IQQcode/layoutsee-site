@@ -194,6 +194,12 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   opacity: 0.85;
 }
 .hero-sub .en { display: block; margin-top: 6px; font-size: 13px; letter-spacing: 0.22em; color: var(--muted); text-transform: uppercase; }
+.hero-platform {
+  margin-top: 24px;
+  font-family: var(--sans); font-size: 13px; letter-spacing: 0.14em;
+  color: var(--muted);
+}
+.hero-platform b { color: var(--gold); font-weight: 600; }
 
 /* 幕布交互：黑圆裁切层，圆内标题反白（clip-path 由 JS 内联写入） */
 .curtain-layer {
@@ -209,6 +215,8 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
 .curtain-clone h1 { color: #fdfbf9; }
 .curtain-clone .hero-sub { color: rgba(253, 251, 249, 0.82); opacity: 1; }
 .curtain-clone .hero-sub .en { color: rgba(253, 251, 249, 0.42); }
+.curtain-clone .hero-platform { color: rgba(253, 251, 249, 0.62); }
+.curtain-clone .hero-platform b { color: #d9b57e; }
 
 .hero-dock-btn {
   position: absolute; left: 50%; bottom: 30px; z-index: 3;
@@ -342,6 +350,11 @@ button { font: inherit; background: none; border: 0; cursor: pointer; color: inh
   border: 1px solid var(--line-soft);
   box-shadow: 0 30px 70px rgba(26, 22, 18, 0.14);
 }
+.showcase figcaption {
+  padding-top: 14px; text-align: center;
+  font-family: var(--sans); font-size: 13px; color: var(--muted);
+}
+.mcp-showcase { margin-top: 44px; }
 .trio {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 1px; background: var(--line);
