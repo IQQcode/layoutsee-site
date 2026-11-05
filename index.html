@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LayoutSee — 让 Agent 感知视图，触摸界面</title>
-  <meta name="description" content="LayoutSee 是面向移动开发者、QA 与 AI Agent 的 macOS 工具：连接 Android / iOS 真机，提供投屏操控、结构化视图感知、布局诊断与 MCP 服务，把运行时视图变成 Agent 可读、可定位、可操作的结构。">
+  <meta name="description" content="LayoutSee 是面向移动开发者、QA 与 AI Agent 的 macOS 工具：Android / iOS 双端真机布局抓取与分析，提供投屏操控、结构化视图感知、布局诊断与 MCP 服务，把运行时视图变成 Agent 可读、可定位、可操作的结构。HarmonyOS 即将支持。">
   <meta property="og:title" content="LayoutSee — 让 Agent 感知视图，触摸界面">
   <meta property="og:description" content="把 Android / iOS 真机上的视图树，变成 Agent 可读、可定位、可操作的结构。">
   <meta property="og:type" content="website">
@@ -26,6 +26,7 @@
           <button type="button" aria-haspopup="true">功能 <span class="caret" aria-hidden="true"></span></button>
           <div class="dd-menu">
             <a href="#workbench">工作台一览</a>
+            <a href="#platforms">Android / iOS 双端</a>
             <a href="#capability">从看见，到动手</a>
             <a href="#mcp">MCP 工具</a>
             <a href="#changelog">更新日志</a>
@@ -71,7 +72,7 @@
       <a class="duo-card" href="download.html">
         <span class="kicker">For Developers</span>
         <h2>开发者的布局工作台</h2>
-        <p>投屏操控、视图树、XPath、诊断，在一个窗口里完成。</p>
+        <p>投屏操控、视图树、XPath、诊断，Android / iOS 双端在一个窗口里完成。</p>
         <span class="duo-art" aria-hidden="true">
           <svg viewBox="0 0 340 130" fill="none" stroke="#b8afa6" stroke-width="1.5" stroke-linecap="round">
             <rect class="draw" x="34" y="8" width="88" height="116" rx="14"/>
@@ -147,7 +148,7 @@
           </a>
         </li>
       </ol>
-      <p class="footnote wrap">Android 设备接入依赖 adb：<code>brew install android-platform-tools</code>，也可在设置中指定已有路径；iOS 设备需被测 App 集成 LookinServer（仅 Debug），抓取恒只读。</p>
+      <p class="footnote wrap">Android 设备接入依赖 adb：<code>brew install android-platform-tools</code>，也可在设置中指定已有路径；iOS 设备需被测 App 集成 LookinServer（仅 Debug），抓取恒只读。嫌配置麻烦？把随包的 layout-env Skill 交给任意 AI，一句「帮我配置 LayoutSee 环境」就会自动装好 adb、体检两端。</p>
     </section>
 
     <!-- 从看见，到动手 -->
@@ -227,11 +228,36 @@
       </div>
     </section>
 
+    <!-- 双端支持 -->
+    <section class="section" id="platforms">
+      <div class="wrap section-head reveal">
+        <h2>Android、iOS，真正的双端布局</h2>
+        <p class="desc">同一套工作台、同一组 MCP 工具，两端都拿得到运行时视图树——不是投个屏看个图，而是结构级的感知。HarmonyOS 也已在路上。</p>
+      </div>
+      <div class="wrap">
+        <div class="trio reveal">
+          <figure>
+            <img src="https://iqqcode-cdn.oss-cn-beijing.aliyuncs.com/dev/layoutsee/11-ios-equipment.png" alt="iOS 设备管理：iPhone 连接后自动发现并列出" loading="lazy">
+            <figcaption><b>iOS 设备管理</b><span>插线即发现</span></figcaption>
+          </figure>
+          <figure>
+            <img src="https://iqqcode-cdn.oss-cn-beijing.aliyuncs.com/dev/layoutsee/08-ios-layout-element.png" alt="iPhone 元素查看：属性面板、UI 层级与候选选择器联动" loading="lazy">
+            <figcaption><b>iOS 视图树</b><span>结构与 Android 同源</span></figcaption>
+          </figure>
+          <figure>
+            <img src="https://iqqcode-cdn.oss-cn-beijing.aliyuncs.com/dev/layoutsee/09-ios-logcat.png" alt="iPhone 日志过滤：级别、tag 与 pid 过滤，支持暂停与自动滚动" loading="lazy">
+            <figcaption><b>iOS 日志抓取</b><span>与 Android 同一体验</span></figcaption>
+          </figure>
+        </div>
+      </div>
+      <p class="footnote wrap">iOS 布局抓取基于 LookinServer（仅 Debug 构建），恒只读；工程集成不必手工改 Podfile——把 layout-lookin-server Skill 交给 AI，CocoaPods / SPM 两条路自动走通。Android、iOS 之外，HarmonyOS 支持已在开发计划中，敬请期待。</p>
+    </section>
+
     <!-- MCP 工具 -->
     <section class="section" id="mcp">
       <div class="wrap section-head reveal">
         <h2>交给 Agent</h2>
-        <p class="desc">12 个内置工具，9 读 3 写；每台在线设备都有独立 SSE 端点。另附三个随包 Skill，覆盖感知、环境配置与 iOS 接入。</p>
+        <p class="desc">12 个内置工具，9 读 3 写，Android / iOS 双端通用；每台在线设备都有独立 SSE 端点。另附三个随包 Skill，覆盖感知、环境配置与 iOS 接入。</p>
       </div>
       <div class="mcp-grid reveal">
         <div class="mcp-cell">
@@ -306,8 +332,8 @@
           <a class="row-link" href="https://github.com/IQQcode/LayoutSee/releases/tag/v22.8.0" target="_blank" rel="noopener">
             <span class="row-no">01</span>
             <span class="row-body">
-              <span class="t">Agent 能力展示与环境一键配置</span>
-              <span class="d">设置新增「Agent」分区与首次启动弹窗：三个随包 Skill（layout-see / layout-env / layout-lookin-server）可复制示例提示词，实时展示内核与 MCP 状态；layout-env 一键体检并配置 Android / iOS 环境，layout-lookin-server 自动把 LookinServer 集成进你的 iOS 工程。</span>
+              <span class="t">iOS 布局抓取上线，Agent 能力一次亮清</span>
+              <span class="d">v22.8.0：iOS 真机布局抓取与分析正式可用——iPhone 插线即发现，投屏、视图树、诊断与 Android 共用同一套工作台和 MCP 工具；设置新增「Agent」分区，三个随包 Skill（layout-see / layout-env / layout-lookin-server）可复制示例提示词，layout-env 一键体检配置环境，layout-lookin-server 自动集成 LookinServer；DMG 从 136/141 MB 瘦身至 94/104 MB。</span>
               <span class="row-meta"><span>v22.8.0</span><span>·</span><span>2026-11-04</span></span>
             </span>
             <span class="row-arrow" aria-hidden="true"><svg width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h26M19 1l7 7-7 7"/></svg></span>

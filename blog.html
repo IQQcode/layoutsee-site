@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>你的 AI 会写代码，却连一个按钮都点不准 — LayoutSee 深度介绍</title>
-  <meta name="description" content="截图只能让 Agent 看见界面，View 树才能让它摸到控件。LayoutSee 把 Android 运行时视图树做成 12 个 MCP 工具：抓快照、读层级、找控件、点它、再验证。">
+  <meta name="description" content="截图只能让 Agent 看见界面，View 树才能让它摸到控件。LayoutSee 把 Android / iOS 运行时视图树做成 12 个 MCP 工具：抓快照、读层级、找控件、点它、再验证。">
   <meta property="og:title" content="你的 AI 会写代码，却连一个按钮都点不准">
   <meta property="og:description" content="截图只能让 Agent 看见界面，View 树才能让它摸到控件。">
   <meta property="og:image" content="https://iqqcode-cdn.oss-cn-beijing.aliyuncs.com/dev/layoutsee/04-layout-element-view.png">
@@ -39,21 +39,22 @@
       <h1>你的 AI 会写代码，<br>却连一个按钮都点不准</h1>
 
       <p class="standfirst">截图只能让它「看见」界面，View 树才能让它「摸到」控件。这是我做 LayoutSee 的原因。<br>
-      一个 macOS 上的 Android 布局工作台 + MCP 服务：把真机视图树交给 Claude、Cursor、Comate，让 Agent 从「猜」变成「查」。</p>
+      一个 macOS 上的 Android / iOS 布局工作台 + MCP 服务：把真机视图树交给 Claude、Cursor、Comate，让 Agent 从「猜」变成「查」。<br>
+      <em>2026-11 更新：v22.8.0 起 iOS 布局抓取正式可用，本文示例仍以 Android 演示。</em></p>
 
       <div class="article-meta">
         <span>2026-10-25</span><span class="dot"></span>
         <span>约 6 分钟</span><span class="dot"></span>
-        <span>AI Agent · MCP · Android</span>
+        <span>AI Agent · MCP · Android / iOS</span>
       </div>
 
       <aside class="tldr">
         <div class="tldr-title">TL;DR / 给赶时间的朋友</div>
         <ul>
           <li>让 Agent 操作 App，主流做法是喂截图、让模型估坐标，准不准全看运气。</li>
-          <li>LayoutSee 把 Android 运行时 View 树通过 MCP 暴露成 12 个工具：抓快照、读层级、找控件、点它、再验证。</li>
+          <li>LayoutSee 把 Android / iOS 运行时视图树通过 MCP 暴露成 12 个工具：抓快照、读层级、找控件、点它、再验证。</li>
           <li>每台设备一个 SSE 端点，一段 JSON 接进 Claude / Cursor / Comate；写操作有只读门禁和审计日志。</li>
-          <li>开源免费，macOS + Android / iOS 真机（iOS 恒只读），<a href="download.html">官网直接下载</a>。</li>
+          <li>开源免费，macOS 客户端 + Android / iOS 双端真机（iOS 恒只读），<a href="download.html">官网直接下载</a>。</li>
         </ul>
       </aside>
 
@@ -123,7 +124,7 @@
 
       <p>LayoutSee 补的就是这一块。</p>
 
-      <p>一句话：把 Android 运行时视图树，工程化成 Agent 能直接调用的 MCP 工具；顺便，给人类一张能看的工作台。</p>
+      <p>一句话：把 Android 运行时视图树，工程化成 Agent 能直接调用的 MCP 工具；顺便，给人类一张能看的工作台。（v22.8.0 起，iOS 的视图树也接了进来——两端共用同一组工具，Agent 连平台差异都不用管。）</p>
 
       <p>它也不是又一个 Appium 客户端：Appium 面向脚本和测试用例，要先写驱动逻辑；LayoutSee 面向 Agent 的即时决策——抓一次、找一次、点一次，不需要预先编排。同一套能力，人在工作台里也能直接用。</p>
 
@@ -247,8 +248,8 @@ Agent → capture_layout             <span class="cm">→ 购物车角标 3 → 
       <p>如果这个小工具帮你少点了一次「猜」，欢迎去 <a href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">GitHub</a> 给个 Star；不好用就来开 Issue——最好带上快照和诊断证据，我们按证据聊。</p>
 
       <div class="article-cta">
-        <p class="cta-title">LayoutSee · <span data-release-tag>v22.6.1</span></p>
-        <p class="cta-sub">macOS + Android / iOS 真机 · 12 个 MCP 工具 · 开源免费</p>
+        <p class="cta-title">LayoutSee · <span data-release-tag>v22.8.0</span></p>
+        <p class="cta-sub">macOS 客户端 · Android / iOS 双端真机 · 12 个 MCP 工具 · 开源免费</p>
         <div class="cta-links">
           <a class="btn-pill" href="https://github.com/IQQcode/LayoutSee" target="_blank" rel="noopener">GitHub 源码 <span class="arr">→</span></a>
           <a class="btn-light" href="index.html">官网首页</a>
@@ -267,7 +268,7 @@ Agent → capture_layout             <span class="cm">→ 购物车角标 3 → 
       <div class="footer-grid">
         <div class="footer-brand">
           <img src="assets/logo/logo-dark.png" alt="LayoutSee 标志（浅色）">
-          <p class="fb-line">让 Agent 感知视图，触摸界面。把 Android 真机上的视图树，变成 Agent 可读、可定位、可操作的结构。</p>
+          <p class="fb-line">让 Agent 感知视图，触摸界面。把 Android / iOS 真机上的视图树，变成 Agent 可读、可定位、可操作的结构。</p>
         </div>
         <div class="footer-col">
           <h4>产品</h4>
